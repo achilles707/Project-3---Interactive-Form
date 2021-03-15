@@ -6,14 +6,12 @@ document.addEventListener('DOMContentLoaded', (e) => {
     document.getElementById('other-job-role').style.display = 'none';
 
     // display the other job role option only if the correct option is selected:
-    const otherRoleOption = document.querySelector('#title')[6];
-    const jobOptionsList = document.querySelectorAll('#title');
+    
+    const jobOptionOther = document.querySelector('#title')[6];
+    console.log(jobOptionOther);
     // listener to display 'other' input if selected:
-    jobOptionsList.addEventListener('change', (e) => {
-        let selected = jobOptionsList.options[jobOptionsList.selectedIndex].value;
-        if(selected == other) {
-            console.log("Other Selected!");
-        }
+    jobOptionOther.addEventListener('change', (e) => {
+        console.log("Other Selected!");
     });
     
 });
