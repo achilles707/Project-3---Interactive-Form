@@ -89,9 +89,13 @@ document.addEventListener('DOMContentLoaded', (e) => {
     paymentMethod[1].selected = 'selected';
     // after user has selected hide other payment options
     paymentMethod.addEventListener('change', (e) => {
-        for() {
-            
+        if(e.target.value != 'Credit Card') {
+            document.getElementById('credit-card').style.display = 'none';
+            console.log('Non-credit card payment selected');
+
+        } else if(e.target.value == 'Credit Card') {
+            document.getElementById('credit-card').style.display = 'list-item';
+            console.log('Credit card payment selected');
         }
     });
-
 });
