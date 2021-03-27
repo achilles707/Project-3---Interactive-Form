@@ -34,37 +34,63 @@ document.addEventListener('DOMContentLoaded', (e) => {
         
 		// only display colors associated with the selected design:
         if(e.target.value === 'js puns') {
-        	console.log('JS Puns selected!');
-			colorOptions[1].style.display = 'list-item';
-            colorOptions[2].style.display = 'list-item';
-			colorOptions[3].style.display = 'list-item';
-            colorOptions[4].style.display = 'none';
-            colorOptions[5].style.display = 'none';
-			colorOptions[6].style.display = 'none';
+            for(let i=1;i<=3;i++) {
+                colorOptions[i].style.display = 'list-item';
+            }
+            for(let i=4;i<=6;i++) {
+                colorOptions[i].style.display = 'none';
+            }
         } else if(e.target.value === 'heart js') {
-			console.log('I love JS selected!');
-            colorOptions[1].style.display = 'none';
-            colorOptions[2].style.display = 'none';
-			colorOptions[3].style.display = 'none';
-            colorOptions[4].style.display = 'list-item';
-            colorOptions[5].style.display = 'list-item';
-			colorOptions[6].style.display = 'list-item';
+            for(let i=1;i<=3;i++) {
+                colorOptions[i].style.display = 'none';
+            }
+            for(let i=4;i<=6;i++) {
+                colorOptions[i].style.display = 'list-item';
+            }
         }
     });  
 
     // Register for Activities Section:
-    // listen for changes in "activities" fieldset
-    const activities = document.getElementById('activities-box');
-    let totalPrice = document.getElementById('activites-cost').innerHTML;
+    const activities = document.getElementById('activities');
+    const totalPrice = document.getElementById('activities-cost');
+    let subTotal = 0;
 
-    activities.addEventListener(checked, (e) => {
-        console.log('Change event heard.');
-        if(e.target.name = 'all') {
-            
-            console.log(totalPrice);
+    // listen for changes in "activities" fieldset
+    
+    activities.addEventListener('change', (e) => {
+        let activityCost = 0;
+        // if not checked, then add to the total price
+        if(e.target.checked == true) {    
+            if(e.target.name != 'all') {
+                activityCost = 100;
+                subTotal += activityCost;
+            } else {
+                activityCost = 200;
+                subTotal += activityCost;
+            }
+        // otherwise, subtract from the total price     
         } else {
+            if(e.target.name != 'all') {
+                activityCost = 100;
+                subTotal -= activityCost;
+            } else {
+                activityCost = 200;
+                subTotal -= activityCost;
+            }
+        }
+        // add the cost of the chosen activities to the total price
+        totalPrice.innerHTML = `$${subTotal}`;
+    });
+
+    // Payment Info Section:
+    const cardNumberInput = document.getElementById('cc-num');
+    const paymentMethod = document.getElementById('payment'); 
+    // credit card as default payment method
+    paymentMethod[1].selected = 'selected';
+    // after user has selected hide other payment options
+    paymentMethod.addEventListener('change', (e) => {
+        for() {
             
-            console.log(totalPrice);
         }
     });
 
