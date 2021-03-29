@@ -1,3 +1,8 @@
+/*
+1. implement time restraints into the Register for Activities section
+2.  
+*/
+
 document.addEventListener('DOMContentLoaded', (e) => {
     // The Name Field:
     // set the default focus to be on the Name input:
@@ -63,10 +68,15 @@ document.addEventListener('DOMContentLoaded', (e) => {
         if(e.target.checked == true) {    
             if(e.target.name != 'all') {
                 activityCost = 100;
-                subTotal += activityCost;
+                subTotal += activityCost;                
+                
             } else {
                 activityCost = 200;
                 subTotal += activityCost;
+                // make sure that any other of the same time is unchecked
+                if(e.target.dataset.dayAndTime == 'Tuesday 9am-12pm') {
+                    console.log('Tuesday 9am-12pm');
+                }
             }
         // otherwise, subtract from the total price     
         } else {
@@ -89,13 +99,10 @@ document.addEventListener('DOMContentLoaded', (e) => {
     paymentMethod[1].selected = 'selected';
     // after user has selected hide other payment options
     paymentMethod.addEventListener('change', (e) => {
-        if(e.target.value != 'Credit Card') {
+        if(e.target.value != 'credit-card') {
             document.getElementById('credit-card').style.display = 'none';
-            console.log('Non-credit card payment selected');
-
-        } else if(e.target.value == 'Credit Card') {
+        } else if(e.target.value == 'credit-card') {
             document.getElementById('credit-card').style.display = 'list-item';
-            console.log('Credit card payment selected');
         }
     });
 });
