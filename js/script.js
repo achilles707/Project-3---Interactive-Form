@@ -1,6 +1,14 @@
 /*
+Treehouse-Project-3---Interactive-Form
+Nathaniel Boonzaaijer
+*/
+
+/*
 1. implement time restraints into the Register for Activities section
-2.  
+2. form validation
+3. accessability
+4. code comments
+5. testing
 */
 
 document.addEventListener('DOMContentLoaded', (e) => {
@@ -74,7 +82,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
                 if(e.target.dataset.dayAndTime == 'Tuesday 9am-12pm') {
                     console.log('Tuesday 9am-12pm');
                     // hide other checkbox for same time
-                    
+
                 } else if(e.target.dataset.dayAndTime == 'Tuesday 1pm-4pm'){
                     console.log('Tuesday 1pm-4pm');
                     // hide other checkbox for same time
