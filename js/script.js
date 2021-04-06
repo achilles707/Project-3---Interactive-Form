@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
     });  
 
     // Register for Activities Section:
-    const activities = document.getElementById('activities');
+    const activities = document.getElementById('activities-box');
     const totalPrice = document.getElementById('activities-cost');
     let subTotal = 0;
 
@@ -68,15 +68,22 @@ document.addEventListener('DOMContentLoaded', (e) => {
         if(e.target.checked == true) {    
             if(e.target.name != 'all') {
                 activityCost = 100;
-                subTotal += activityCost;                
+                subTotal += activityCost;
+
+                // check if certain day and time already checked
+                if(e.target.dataset.dayAndTime == 'Tuesday 9am-12pm') {
+                    console.log('Tuesday 9am-12pm');
+                    // hide other checkbox for same time
+                    
+                } else if(e.target.dataset.dayAndTime == 'Tuesday 1pm-4pm'){
+                    console.log('Tuesday 1pm-4pm');
+                    // hide other checkbox for same time
+                    
+                }
                 
             } else {
                 activityCost = 200;
                 subTotal += activityCost;
-                // make sure that any other of the same time is unchecked
-                if(e.target.dataset.dayAndTime == 'Tuesday 9am-12pm') {
-                    console.log('Tuesday 9am-12pm');
-                }
             }
         // otherwise, subtract from the total price     
         } else {
@@ -105,4 +112,63 @@ document.addEventListener('DOMContentLoaded', (e) => {
             document.getElementById('credit-card').style.display = 'list-item';
         }
     });
+
+    // Form Validation:
+    const form = document.querySelector('form');
+    let name = document.getElementById('name').value;
+    let email = document.getElementById('email').value;
+    let ccNum = document.getElementById('cc-num').value;
+
+    function validateName(name) {
+        console.log(name);
+       /* if() {
+        return true;
+       } else {
+           return false;
+       } */
+    }
+
+    function validateEmail(email) {
+        console.log(email);
+       /*  if() {
+            return true;
+           } else {
+               return false;
+           } */
+    }
+
+    function validateActivities(activities) {
+        console.log(activities);
+        /* if() {
+            return true;
+           } else {
+               return false;
+           } */
+    }
+
+    function validateCC(ccNum) {
+        console.log(ccNum);
+       /*  if() {
+            return true;
+           } else {
+               return false;
+           } */
+    }
+    // event listener for form submission that will validate all user input:
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        // name field validation:
+        validateName(name);
+        // email field validation:
+        validateEmail(email);
+        // register for activities section validation:
+        validateActivities(activities);
+        // credit card validation: 
+        let x = '0';
+        if(x == '0') {
+            validateCC(ccNum);
+        }
+        console.log('Form validated.');
+    });
+
 });
