@@ -81,11 +81,11 @@ document.addEventListener('DOMContentLoaded', (e) => {
                 // check if certain day and time already checked
                 if(e.target.dataset.dayAndTime == 'Tuesday 9am-12pm') {
                     console.log('Tuesday 9am-12pm');
-                    // hide other checkbox for same time
-
+                    // grey out other checkbox for same time
+                    
                 } else if(e.target.dataset.dayAndTime == 'Tuesday 1pm-4pm'){
                     console.log('Tuesday 1pm-4pm');
-                    // hide other checkbox for same time
+                    // grey out other checkbox for same time
                     
                 }
                 
@@ -123,60 +123,51 @@ document.addEventListener('DOMContentLoaded', (e) => {
 
     // Form Validation:
     const form = document.querySelector('form');
-    let name = document.getElementById('name').value;
-    let email = document.getElementById('email').value;
-    let ccNum = document.getElementById('cc-num').value;
+    let nameValue = document.getElementById('name').value;
+    let emailValue = document.getElementById('email').value;
+    let ccNumValue = document.getElementById('cc-num').value;
 
     function validateName(name) {
-        console.log(name);
-       /* if() {
-        return true;
-       } else {
-           return false;
-       } */
+        const nameValid = /^[a-zA-Z]+ ?[a-zA-Z]*? ?[a-zA-Z]*?$/.test(name);
+        console.log(`${name} valid name: ${nameValid}`);
     }
 
     function validateEmail(email) {
+        //const emailValid = ;
         console.log(email);
-       /*  if() {
-            return true;
-           } else {
-               return false;
-           } */
+       
     }
 
     function validateActivities(activities) {
+        //const activitiesValid = ;
         console.log(activities);
-        /* if() {
-            return true;
-           } else {
-               return false;
-           } */
+        
     }
 
     function validateCC(ccNum) {
+        //const ccValid = ;
         console.log(ccNum);
-       /*  if() {
-            return true;
-           } else {
-               return false;
-           } */
+       
     }
     // event listener for form submission that will validate all user input:
     form.addEventListener('submit', (e) => {
         e.preventDefault();
         // name field validation:
-        validateName(name);
+        validateName(nameValue);
         // email field validation:
-        validateEmail(email);
+        //validateEmail(email);
         // register for activities section validation:
-        validateActivities(activities);
+        //validateActivities(activities);
         // credit card validation: 
         let x = '0';
-        if(x == '0') {
+        /* if(x == '0') {
             validateCC(ccNum);
+        } */
+
+        if(nameValid ) { // || ccValid || emailValid || activitiesValid
+            console.log('Form validated.');
+
         }
-        console.log('Form validated.');
     });
 
 });
