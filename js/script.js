@@ -177,7 +177,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
         const ccCVVvalid = /^[1-9]{1}[0-9]{2}$/.test(ccCVV);
         
         if(ccNumValid && ccZipValid && ccCVVvalid) {
-            ccValid = true;
+            let ccValid = true;
             console.log(`credit card valid: ${ccValid}`);
         }
         return ccValid;
