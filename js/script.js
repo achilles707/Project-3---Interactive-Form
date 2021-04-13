@@ -4,7 +4,7 @@ Nathaniel Boonzaaijer
 */
 
 /*
-1. implement time restraints into the Register for Activities section
+1. time restraints in Register for Activities section
 2. form validation
 3. accessability
 4. code comments
@@ -67,6 +67,8 @@ document.addEventListener('DOMContentLoaded', (e) => {
     const activities = document.getElementById('activities-box');
     const totalPrice = document.getElementById('activities-cost');
     let subTotal = 0;
+    // for validation:
+    let activitiesChecked = 0;
 
     // listen for changes in "activities" fieldset
     
@@ -77,30 +79,50 @@ document.addEventListener('DOMContentLoaded', (e) => {
             if(e.target.name != 'all') {
                 activityCost = 100;
                 subTotal += activityCost;
+                
+                // for validation:
+                activitiesChecked += 1;
 
                 // check if certain day and time already checked
                 if(e.target.dataset.dayAndTime == 'Tuesday 9am-12pm') {
                     console.log('Tuesday 9am-12pm');
+
                     // grey out other checkbox for same time
+
+                    // for validation:
+                    activitiesChecked += 1;
                     
                 } else if(e.target.dataset.dayAndTime == 'Tuesday 1pm-4pm'){
                     console.log('Tuesday 1pm-4pm');
+
                     // grey out other checkbox for same time
-                    
+
+                    // for validation:
+                    activitiesChecked += 1;
+
                 }
                 
             } else {
                 activityCost = 200;
                 subTotal += activityCost;
+
+                // for validation:
+                activitiesChecked += 1;
             }
         // otherwise, subtract from the total price     
         } else {
             if(e.target.name != 'all') {
                 activityCost = 100;
                 subTotal -= activityCost;
+
+                // for validation:
+                activitiesChecked -= 1;
             } else {
                 activityCost = 200;
                 subTotal -= activityCost;
+
+                // for validation:
+                activitiesChecked -= 1;
             }
         }
         // add the cost of the chosen activities to the total price
@@ -123,51 +145,68 @@ document.addEventListener('DOMContentLoaded', (e) => {
 
     // Form Validation:
     const form = document.querySelector('form');
-    let nameValue = document.getElementById('name').value;
-    let emailValue = document.getElementById('email').value;
-    let ccNumValue = document.getElementById('cc-num').value;
 
     function validateName(name) {
         const nameValid = /^[a-zA-Z]+ ?[a-zA-Z]*? ?[a-zA-Z]*?$/.test(name);
-        console.log(`${name} valid name: ${nameValid}`);
+        console.log(`${name} name valid: ${nameValid}`);
+
+        return nameValid;
     }
 
     function validateEmail(email) {
-        //const emailValid = ;
-        console.log(email);
+        const emailValid = /^[a-zA-Z0-9]+@+[a-z]+.com$/.test(email);
+        console.log(`${email} email valid: ${emailValid}`);
        
+        return emailValid;
     }
 
     function validateActivities(activities) {
-        //const activitiesValid = ;
-        console.log(activities);
+        let activitiesValid = false;
+ 
+        if(activitiesChecked >= 1) {
+            activitiesValid = true;
+        }
+        console.log(`activities valid: ${activitiesValid}`);
         
+        return activitiesValid;
     }
 
-    function validateCC(ccNum) {
-        //const ccValid = ;
-        console.log(ccNum);
-       
+    function validateCC(ccNum, ccZip, ccCVV) {
+        const ccNumValid = /^[0-9]{16}$/.test(ccNum);
+        const ccZipValid = /^[1-9]{1}[0-9]{4}$/.test(ccZip);
+        const ccCVVvalid = /^[1-9]{1}[0-9]{2}$/.test(ccCVV);
+        
+        if(ccNumValid && ccZipValid && ccCVVvalid) {
+            ccValid = true;
+            console.log(`credit card valid: ${ccValid}`);
+        }
+        return ccValid;
     }
     // event listener for form submission that will validate all user input:
     form.addEventListener('submit', (e) => {
         e.preventDefault();
+        let nameValue = document.getElementById('name').value;
+        let emailValue = document.getElementById('email').value;
+        const activities = document.getElementById('activities-box');
+        const paymentMethod = document.getElementById('payment');
+
+        let ccNumValue = document.getElementById('cc-num').value;
+        let ccZipValue = document.getElementById('zip').value;
+        let ccCVVvalue = document.getElementById('cvv').value;
+
         // name field validation:
         validateName(nameValue);
         // email field validation:
-        //validateEmail(email);
+        validateEmail(emailValue);
         // register for activities section validation:
-        //validateActivities(activities);
+        validateActivities(activities);
         // credit card validation: 
-        let x = '0';
-        /* if(x == '0') {
-            validateCC(ccNum);
-        } */
-
-        if(nameValid ) { // || ccValid || emailValid || activitiesValid
-            console.log('Form validated.');
-
+        if(paymentMethod[1].selected == 'selected') {
+            validateCC(ccNumValue);
+        } else {
+            console.log('Credit card not selected');
         }
+        
     });
 
 });
