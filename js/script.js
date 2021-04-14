@@ -5,7 +5,7 @@ Nathaniel Boonzaaijer
 
 /*
 1. time restraints in Register for Activities section
-2. form validation
+2. separate CC info validation into separate functions
 3. accessability
 4. code comments
 5. testing
@@ -74,6 +74,33 @@ document.addEventListener('DOMContentLoaded', (e) => {
     
     activities.addEventListener('change', (e) => {
         let activityCost = 0;
+        let tuesdayMorning = document.querySelectorAll("[data-day-and-time='Tuesday 9am-12pm']");
+        let tuesdayAfternoon = document.querySelectorAll("[data-day-and-time='Tuesday 1pm-4pm']");
+
+
+        // function to block user from clicking two simultaneous events:
+        function blockSimulEvent(eventTime) {    
+            eventTime[0].addEventListener('change', (e) => {
+                if(e.target.checked == true) {
+                    console.log('first option checked');
+                    eventTime[1].disabled = true;
+                } else if(e.target.checked == false) {
+                    console.log('first option unchecked');
+                    eventTime[1].disabled = false;
+                }
+            });
+
+            eventTime[1].addEventListener('change', (e) => {
+                if(e.target.checked == true) {
+                    console.log('second option checked');
+                    eventTime[0].disabled = true;
+                } else if(e.target.checked == false) {
+                    console.log('first option unchecked');
+                    eventTime[0].disabled = false;
+                }
+            });
+        }
+
         // if not checked, then add to the total price
         if(e.target.checked == true) {    
             if(e.target.name != 'all') {
@@ -88,6 +115,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
                     console.log('Tuesday 9am-12pm');
 
                     // grey out other checkbox for same time
+                    blockSimulEvent(tuesdayMorning);
 
                     // for validation:
                     activitiesChecked += 1;
@@ -96,6 +124,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
                     console.log('Tuesday 1pm-4pm');
 
                     // grey out other checkbox for same time
+                    blockSimulEvent(tuesdayAfternoon);
 
                     // for validation:
                     activitiesChecked += 1;
@@ -150,6 +179,11 @@ document.addEventListener('DOMContentLoaded', (e) => {
         const nameValid = /^[a-zA-Z]+ ?[a-zA-Z]*? ?[a-zA-Z]*?$/.test(name);
         console.log(`${name} name valid: ${nameValid}`);
 
+        if(nameValid == false) {
+            document.getElementById('name').style.display = 'not-valid';
+        } else {
+            document.getElementById('name').style.display = 'valid';
+        }
         return nameValid;
     }
 
@@ -171,15 +205,29 @@ document.addEventListener('DOMContentLoaded', (e) => {
         return activitiesValid;
     }
 
-    function validateCC(ccNum, ccZip, ccCVV) {
+    function validateCC(ccNum, ccZip, ccCVV, ccYear, ccDate) {
         const ccNumValid = /^[0-9]{16}$/.test(ccNum);
-        const ccZipValid = /^[1-9]{1}[0-9]{4}$/.test(ccZip);
+        const ccZipValid = /^\d{5}$/.test(ccZip);
         const ccCVVvalid = /^[1-9]{1}[0-9]{2}$/.test(ccCVV);
+        let ccDateValid = false;
+        let ccYearValid = false;
+        let ccValid = false;
         
-        if(ccNumValid && ccZipValid && ccCVVvalid) {
-            let ccValid = true;
+        if(isNaN(ccYear) == false) {
+            ccYearValid = true;
+        }
+
+        if(isNaN(ccDate) == false) {
+            ccDateValid = true;
+        }
+
+        if(ccNumValid && ccZipValid && ccCVVvalid && ccDateValid && ccYearValid) {
+            ccValid = true;
+            console.log(`credit card valid: ${ccValid}`);
+        } else {
             console.log(`credit card valid: ${ccValid}`);
         }
+
         return ccValid;
     }
     // event listener for form submission that will validate all user input:
@@ -193,6 +241,8 @@ document.addEventListener('DOMContentLoaded', (e) => {
         let ccNumValue = document.getElementById('cc-num').value;
         let ccZipValue = document.getElementById('zip').value;
         let ccCVVvalue = document.getElementById('cvv').value;
+        let ccDateValue = document.getElementById('exp-month').value;
+        let ccYearValue = document.getElementById('exp-year').value;
 
         // name field validation:
         validateName(nameValue);
@@ -201,12 +251,10 @@ document.addEventListener('DOMContentLoaded', (e) => {
         // register for activities section validation:
         validateActivities(activities);
         // credit card validation: 
-        if(paymentMethod[1].selected == 'selected') {
-            validateCC(ccNumValue);
-        } else {
-            console.log('Credit card not selected');
+        if(document.getElementById('payment').value == 'credit-card') {
+            validateCC(ccNumValue, ccZipValue, ccCVVvalue, ccYearValue, ccDateValue);
         }
-        
+ 
     });
 
 });
