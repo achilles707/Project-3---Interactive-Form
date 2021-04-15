@@ -3,12 +3,16 @@ Treehouse-Project-3---Interactive-Form
 Nathaniel Boonzaaijer
 */
 
-/*
-1. time restraints in Register for Activities section
-2. separate CC info validation into separate functions
-3. accessability
-4. code comments
-5. testing
+/*  TO DO:
+    show user on page which input fields are invalid
+    accessability
+    code comments
+    testing
+*/
+
+/*  BUGS:
+    fix shirt options when theme is switched
+    conflicting events still available after first click
 */
 
 document.addEventListener('DOMContentLoaded', (e) => {
@@ -82,26 +86,26 @@ document.addEventListener('DOMContentLoaded', (e) => {
         function blockSimulEvent(eventTime) {    
             eventTime[0].addEventListener('change', (e) => {
                 if(e.target.checked == true) {
-                    console.log('first option checked');
+                    eventTime[1].checked = false;
                     eventTime[1].disabled = true;
+
                 } else if(e.target.checked == false) {
-                    console.log('first option unchecked');
                     eventTime[1].disabled = false;
                 }
             });
 
             eventTime[1].addEventListener('change', (e) => {
                 if(e.target.checked == true) {
-                    console.log('second option checked');
+                    eventTime[0].checked = false;
                     eventTime[0].disabled = true;
+
                 } else if(e.target.checked == false) {
-                    console.log('first option unchecked');
                     eventTime[0].disabled = false;
                 }
             });
         }
 
-        // if not checked, then add to the total price
+        // update total price
         if(e.target.checked == true) {    
             if(e.target.name != 'all') {
                 activityCost = 100;
@@ -116,7 +120,6 @@ document.addEventListener('DOMContentLoaded', (e) => {
 
                     // grey out other checkbox for same time
                     blockSimulEvent(tuesdayMorning);
-
                     // for validation:
                     activitiesChecked += 1;
                     
@@ -177,19 +180,14 @@ document.addEventListener('DOMContentLoaded', (e) => {
 
     function validateName(name) {
         const nameValid = /^[a-zA-Z]+ ?[a-zA-Z]*? ?[a-zA-Z]*?$/.test(name);
-        console.log(`${name} name valid: ${nameValid}`);
+        console.log(`name valid: ${nameValid}`);
 
-        if(nameValid == false) {
-            document.getElementById('name').style.display = 'not-valid';
-        } else {
-            document.getElementById('name').style.display = 'valid';
-        }
         return nameValid;
     }
 
     function validateEmail(email) {
         const emailValid = /^[a-zA-Z0-9]+@+[a-z]+.com$/.test(email);
-        console.log(`${email} email valid: ${emailValid}`);
+        console.log(`email valid: ${emailValid}`);
        
         return emailValid;
     }
@@ -205,31 +203,44 @@ document.addEventListener('DOMContentLoaded', (e) => {
         return activitiesValid;
     }
 
-    function validateCC(ccNum, ccZip, ccCVV, ccYear, ccDate) {
+    // Credit Card fields validation:
+    function validateCCnum(ccNum) {
         const ccNumValid = /^[0-9]{16}$/.test(ccNum);
+        console.log(`Card number valid: ${ccNumValid}`);
+
+        return ccNumValid;
+    }
+    function validateCCzip(ccZip) {
         const ccZipValid = /^\d{5}$/.test(ccZip);
+        console.log(`Zip code valid: ${ccZipValid}`);
+
+        return ccZipValid;
+    }
+    function validateCCcvv(ccCVV) {
         const ccCVVvalid = /^[1-9]{1}[0-9]{2}$/.test(ccCVV);
-        let ccDateValid = false;
+        console.log(`CVV valid: ${ccCVVvalid}`);
+
+        return ccCVVvalid;
+    }
+    function validateCCyear(ccYear) {
         let ccYearValid = false;
-        let ccValid = false;
-        
         if(isNaN(ccYear) == false) {
             ccYearValid = true;
         }
+        console.log(`Exp year valid: ${ccYearValid}`);
 
-        if(isNaN(ccDate) == false) {
-            ccDateValid = true;
-        }
-
-        if(ccNumValid && ccZipValid && ccCVVvalid && ccDateValid && ccYearValid) {
-            ccValid = true;
-            console.log(`credit card valid: ${ccValid}`);
-        } else {
-            console.log(`credit card valid: ${ccValid}`);
-        }
-
-        return ccValid;
+        return ccYearValid;
     }
+    function validateCCmonth(ccMonth) {
+        let ccMonthValid = false;
+        if(isNaN(ccMonth) == false) {
+            ccMonthValid = true;
+        }
+        console.log(`Exp month valid: ${ccMonthValid}`);
+
+        return ccMonthValid;
+    }
+
     // event listener for form submission that will validate all user input:
     form.addEventListener('submit', (e) => {
         e.preventDefault();
@@ -241,7 +252,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
         let ccNumValue = document.getElementById('cc-num').value;
         let ccZipValue = document.getElementById('zip').value;
         let ccCVVvalue = document.getElementById('cvv').value;
-        let ccDateValue = document.getElementById('exp-month').value;
+        let ccMonthValue = document.getElementById('exp-month').value;
         let ccYearValue = document.getElementById('exp-year').value;
 
         // name field validation:
@@ -252,7 +263,11 @@ document.addEventListener('DOMContentLoaded', (e) => {
         validateActivities(activities);
         // credit card validation: 
         if(document.getElementById('payment').value == 'credit-card') {
-            validateCC(ccNumValue, ccZipValue, ccCVVvalue, ccYearValue, ccDateValue);
+            validateCCnum(ccNumValue);
+            validateCCzip(ccZipValue);
+            validateCCcvv(ccCVVvalue);
+            validateCCyear(ccYearValue);
+            validateCCmonth(ccMonthValue);
         }
  
     });
