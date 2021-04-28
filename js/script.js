@@ -51,20 +51,35 @@ document.addEventListener('DOMContentLoaded', (e) => {
         
 		// only display colors associated with the selected design:
         if(e.target.value === 'js puns') {
+            console.log('js puns selected');
             for(let i=1;i<=3;i++) {
                 colorOptions[i].style.display = 'list-item';
             }
             for(let i=4;i<=6;i++) {
                 colorOptions[i].style.display = 'none';
             }
+
         } else if(e.target.value === 'heart js') {
+            console.log('heart js selected');
             for(let i=1;i<=3;i++) {
                 colorOptions[i].style.display = 'none';
             }
             for(let i=4;i<=6;i++) {
                 colorOptions[i].style.display = 'list-item';
             }
+        } 
+        // add something to switch invalid color selection:
+        if(e.target.value == 'js puns' && colorOptions.selected.dataset.theme == 'heart js') {
+            colorOptions.selected = colorOptions[1];
+        } else if(e.target.value == 'heart js' && colorOptions.selected.dataset.theme == 'js puns') {
+            colorOptions.selected = colorOptions[4];
         }
+        
+        // make above into single function:
+        function switchColorOptions(designTheme) {
+            
+        }
+        
     });  
 
     // Register for Activities Section:
