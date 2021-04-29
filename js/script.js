@@ -77,7 +77,9 @@ document.addEventListener('DOMContentLoaded', (e) => {
         
         // make above into single function:
         function switchColorOptions(designTheme) {
-            
+            if(e.target.value == designTheme) {
+                
+            }
         }
         
     });  
