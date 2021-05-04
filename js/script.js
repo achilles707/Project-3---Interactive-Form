@@ -4,6 +4,7 @@ Nathaniel Boonzaaijer
 */
 
 /*  TO DO:
+    for t-shirt validation, check that valid shirt design is selected
     show user on page which input fields are invalid
     accessability
     code comments
@@ -11,7 +12,6 @@ Nathaniel Boonzaaijer
 */
 
 /*  BUGS:
-    fix shirt options when theme is switched
     conflicting events still available after first click
 */
 
