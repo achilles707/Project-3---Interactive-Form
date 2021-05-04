@@ -193,12 +193,16 @@ document.addEventListener('DOMContentLoaded', (e) => {
     });
 
     // Form Validation:
-    const form = document.querySelector('form');
 
     function validateName(name) {
         const nameValid = /^[a-zA-Z]+ ?[a-zA-Z]*? ?[a-zA-Z]*?$/.test(name);
+        if(nameValid == false) {
+            document.getElementById('name').classList.add('not-valid');
+            document.getElementById('name-hint').style.display = 'hint';
+        }
         console.log(`name valid: ${nameValid}`);
 
+        
         return nameValid;
     }
 
