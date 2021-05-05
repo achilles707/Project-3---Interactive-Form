@@ -193,15 +193,18 @@ document.addEventListener('DOMContentLoaded', (e) => {
     });
 
     // Form Validation:
+    const form = document.querySelector('form');
 
     function validateName(name) {
         const nameValid = /^[a-zA-Z]+ ?[a-zA-Z]*? ?[a-zA-Z]*?$/.test(name);
         if(nameValid == false) {
-            document.getElementById('name').classList.add('not-valid');
-            document.getElementById('name-hint').style.display = 'hint';
+            document.getElementById('name').classList.add('error-border');
+            document.getElementById('name-hint').style.display = 'list-item';
+        } else {
+            document.getElementById('name').classList.remove('error-border');
+            document.getElementById('name-hint').style.display = 'none';
         }
         console.log(`name valid: ${nameValid}`);
-
         
         return nameValid;
     }
