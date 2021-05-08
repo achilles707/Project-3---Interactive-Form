@@ -4,8 +4,6 @@ Nathaniel Boonzaaijer
 */
 
 /*  TO DO:
-    for t-shirt validation, check that valid shirt design is selected
-    show user on page which input fields are invalid
     accessability
     code comments
     testing
@@ -58,6 +56,10 @@ document.addEventListener('DOMContentLoaded', (e) => {
             for(let i=4;i<=6;i++) {
                 colorOptions[i].style.display = 'none';
             }
+            // clear invalid selection:
+            if(colorOptions.selectedIndex == 4 || 5 || 6) {
+                colorOptions.selectedIndex = 1;
+            }
 
         } else if(e.target.value === 'heart js') {
             console.log('heart js selected');
@@ -67,20 +69,11 @@ document.addEventListener('DOMContentLoaded', (e) => {
             for(let i=4;i<=6;i++) {
                 colorOptions[i].style.display = 'list-item';
             }
-        } 
-        // add something to switch invalid color selection:
-        if(e.target.value == 'js puns' && colorOptions.selected.dataset.theme == 'heart js') {
-            colorOptions.selected = colorOptions[1];
-        } else if(e.target.value == 'heart js' && colorOptions.selected.dataset.theme == 'js puns') {
-            colorOptions.selected = colorOptions[4];
-        }
-        
-        // make above into single function:
-        function switchColorOptions(designTheme) {
-            if(e.target.value == designTheme) {
-                
+            // clear invalid selection:
+            if(colorOptions.selectedIndex == 1 || 2 || 3) {
+                colorOptions.selectedIndex = 4;
             }
-        }
+        } 
         
     });  
 
@@ -211,6 +204,13 @@ document.addEventListener('DOMContentLoaded', (e) => {
 
     function validateEmail(email) {
         const emailValid = /^[a-zA-Z0-9]+@+[a-z]+.com$/.test(email);
+        if(emailValid == false) {
+            document.getElementById('email').classList.add('not-valid');
+            document.getElementById('email-hint').style.display = 'list-item';
+        } else {
+            document.getElementById('email').classList.remove('not-valid');
+            document.getElementById('email-hint').style.display = 'none';
+        }
         console.log(`email valid: ${emailValid}`);
        
         return emailValid;
@@ -222,6 +222,13 @@ document.addEventListener('DOMContentLoaded', (e) => {
         if(activitiesChecked >= 1) {
             activitiesValid = true;
         }
+        if(activitiesValid == false) {
+            document.getElementById('activities').classList.add('not-valid');
+            document.getElementById('activities-hint').style.display = 'list-item';
+        } else {
+            document.getElementById('activities').classList.remove('not-valid');
+            document.getElementById('activities-hint').style.display = 'none';
+        }
         console.log(`activities valid: ${activitiesValid}`);
         
         return activitiesValid;
@@ -230,18 +237,36 @@ document.addEventListener('DOMContentLoaded', (e) => {
     // Credit Card fields validation:
     function validateCCnum(ccNum) {
         const ccNumValid = /^[0-9]{16}$/.test(ccNum);
+        if(ccNumValid == false) {
+            document.getElementById('cc-num').classList.add('not-valid');
+            document.getElementById('cc-hint').style.display = 'list-item';
+        } else {
+            document.getElementById('cc-num').classList.remove('not-valid');
+            document.getElementById('cc-hint').style.display = 'none';
+        }
         console.log(`Card number valid: ${ccNumValid}`);
 
         return ccNumValid;
     }
     function validateCCzip(ccZip) {
         const ccZipValid = /^\d{5}$/.test(ccZip);
+        if(ccZipValid == false) {
+            document.getElementById('zip').classList.add('not-valid');
+            document.getElementById('zip-hint').style.display = 'list-item';
+        } else {
+            document.getElementById('zip').classList.remove('not-valid');
+            document.getElementById('zip-hint').style.display = 'none';
+        }
         console.log(`Zip code valid: ${ccZipValid}`);
 
         return ccZipValid;
     }
     function validateCCcvv(ccCVV) {
         const ccCVVvalid = /^[1-9]{1}[0-9]{2}$/.test(ccCVV);
+        if(ccCVVvalid == false) {
+            document.getElementById('cvv').classList.add('not-valid');
+            document.getElementById('cvv-hint').style.display = 'list-item';
+        }
         console.log(`CVV valid: ${ccCVVvalid}`);
 
         return ccCVVvalid;
@@ -268,6 +293,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
     // event listener for form submission that will validate all user input:
     form.addEventListener('submit', (e) => {
         e.preventDefault();
+
         let nameValue = document.getElementById('name').value;
         let emailValue = document.getElementById('email').value;
         const activities = document.getElementById('activities-box');
@@ -293,7 +319,10 @@ document.addEventListener('DOMContentLoaded', (e) => {
             validateCCyear(ccYearValue);
             validateCCmonth(ccMonthValue);
         }
- 
+        /* if(nameValid || emailValid || activitiesValid || ccNumValid || ccZipValid || ccCVVvalid ||
+                ccYearValid || ccMonthValid == 'false') {
+            e.preventDefault();
+        } */
     });
 
 });
