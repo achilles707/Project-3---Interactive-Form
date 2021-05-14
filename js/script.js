@@ -6,11 +6,10 @@ Nathaniel Boonzaaijer
 /*  TO DO:
     accessability
     code comments
-    testing
 */
 
 /*  BUGS:
-    conflicting events still available after first click
+    
 */
 
 document.addEventListener('DOMContentLoaded', (e) => {
@@ -91,85 +90,80 @@ document.addEventListener('DOMContentLoaded', (e) => {
         let tuesdayMorning = document.querySelectorAll("[data-day-and-time='Tuesday 9am-12pm']");
         let tuesdayAfternoon = document.querySelectorAll("[data-day-and-time='Tuesday 1pm-4pm']");
 
-
-        // function to block user from clicking two simultaneous events:
-        function blockSimulEvent(eventTime) {    
-            eventTime[0].addEventListener('change', (e) => {
-                if(e.target.checked == true) {
-                    eventTime[1].checked = false;
-                    eventTime[1].disabled = true;
-
-                } else if(e.target.checked == false) {
-                    eventTime[1].disabled = false;
-                }
-            });
-
-            eventTime[1].addEventListener('change', (e) => {
-                if(e.target.checked == true) {
-                    eventTime[0].checked = false;
-                    eventTime[0].disabled = true;
-
-                } else if(e.target.checked == false) {
-                    eventTime[0].disabled = false;
-                }
-            });
-        }
-
-        // update total price
-        if(e.target.checked == true) {    
+        // when box is checked/unchecked add/subtract 100/200 from subtotal
+        if(e.target.checked == true) {
             if(e.target.name != 'all') {
                 activityCost = 100;
                 subTotal += activityCost;
-                
-                // for validation:
-                activitiesChecked += 1;
-
-                // check if certain day and time already checked
-                if(e.target.dataset.dayAndTime == 'Tuesday 9am-12pm') {
-                    console.log('Tuesday 9am-12pm');
-
-                    // grey out other checkbox for same time
-                    blockSimulEvent(tuesdayMorning);
-                    // for validation:
-                    activitiesChecked += 1;
-                    
-                } else if(e.target.dataset.dayAndTime == 'Tuesday 1pm-4pm'){
-                    console.log('Tuesday 1pm-4pm');
-
-                    // grey out other checkbox for same time
-                    blockSimulEvent(tuesdayAfternoon);
-
-                    // for validation:
-                    activitiesChecked += 1;
-
-                }
-                
             } else {
                 activityCost = 200;
                 subTotal += activityCost;
-
-                // for validation:
-                activitiesChecked += 1;
             }
-        // otherwise, subtract from the total price     
+            activitiesChecked += 1;
         } else {
             if(e.target.name != 'all') {
                 activityCost = 100;
                 subTotal -= activityCost;
-
-                // for validation:
-                activitiesChecked -= 1;
             } else {
                 activityCost = 200;
                 subTotal -= activityCost;
-
-                // for validation:
-                activitiesChecked -= 1;
             }
+            activitiesChecked -= 1;
         }
-        // add the cost of the chosen activities to the total price
+
+        // when box is checked, disable checkbox for any conflicting event
+        if(tuesdayMorning[0].checked == true) {
+            tuesdayMorning[1].disabled = true;
+            tuesdayMorning[1].parentElement.classList.add('disabled');
+        } else if(tuesdayMorning[0].checked == false) {
+            tuesdayMorning[1].disabled = false;
+            tuesdayMorning[1].parentElement.classList.remove('disabled');
+        }
+
+        if(tuesdayMorning[1].checked == true) {
+            tuesdayMorning[0].disabled = true;
+            tuesdayMorning[0].parentElement.classList.add('disabled');
+        } else if(tuesdayMorning[1].checked == false) {
+            tuesdayMorning[0].disabled = false;
+            tuesdayMorning[0].parentElement.classList.remove('disabled');
+        }
+
+        if(tuesdayAfternoon[0].checked == true) {
+            tuesdayAfternoon[1].disabled = true;
+            tuesdayAfternoon[1].parentElement.classList.add('disabled');
+        } else if(tuesdayAfternoon[0].checked == false) {
+            tuesdayAfternoon[1].disabled = false;
+            tuesdayAfternoon[1].parentElement.classList.remove('disabled');
+        }
+
+        if(tuesdayAfternoon[1].checked == true) {
+            tuesdayAfternoon[0].disabled = true;
+            tuesdayAfternoon[0].parentElement.classList.add('disabled');
+        } else if(tuesdayAfternoon[1].checked == false) {
+            tuesdayAfternoon[0].disabled = false;
+            tuesdayAfternoon[0].parentElement.classList.remove('disabled');
+        }
+
         totalPrice.innerHTML = `$${subTotal}`;
+        console.log(`Activities Checked: ${activitiesChecked}`);
+
     });
+
+    // Accessibility:
+    // make the focus/blur events more obvious for the activity options:
+    
+    const activityChecks = document.querySelectorAll('input[type=checkbox]')
+    for(let i=0; i<activityChecks.length; i++) {
+        activityChecks[i].addEventListener('focus', (e) => {
+            activityChecks[i].parentElement.classList.add('focus');
+            console.log(activityChecks[i].parentElement.classList);
+            for(j=0; j<activityChecks.length; j++) {
+                if(activityChecks[j] != activityChecks[i] && activityChecks[j].parentElement.classList.contains('focus')) {
+                    activityChecks[j].parentElement.classList.remove('focus');
+                }
+            }
+        });
+    }    
 
     // Payment Info Section:
     const cardNumberInput = document.getElementById('cc-num');
@@ -266,6 +260,9 @@ document.addEventListener('DOMContentLoaded', (e) => {
         if(ccCVVvalid == false) {
             document.getElementById('cvv').classList.add('not-valid');
             document.getElementById('cvv-hint').style.display = 'list-item';
+        } else {
+            document.getElementById('cvv').classList.remove('not-valid');
+            document.getElementById('cvv-hint').style.display = 'none';
         }
         console.log(`CVV valid: ${ccCVVvalid}`);
 
