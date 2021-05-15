@@ -4,12 +4,15 @@ Nathaniel Boonzaaijer
 */
 
 /*  TO DO:
-    accessability
-    code comments
-*/
-
-/*  BUGS:
-    
+    Error messages:
+        not displaying for:
+            Name
+            Email
+            Card Number
+            Zip Code
+            CVV
+    Form never submits,
+        if there are no errors, form should not be kept from submitting
 */
 
 document.addEventListener('DOMContentLoaded', (e) => {
@@ -156,7 +159,6 @@ document.addEventListener('DOMContentLoaded', (e) => {
     for(let i=0; i<activityChecks.length; i++) {
         activityChecks[i].addEventListener('focus', (e) => {
             activityChecks[i].parentElement.classList.add('focus');
-            console.log(activityChecks[i].parentElement.classList);
             for(j=0; j<activityChecks.length; j++) {
                 if(activityChecks[j] != activityChecks[i] && activityChecks[j].parentElement.classList.contains('focus')) {
                     activityChecks[j].parentElement.classList.remove('focus');
@@ -167,13 +169,26 @@ document.addEventListener('DOMContentLoaded', (e) => {
 
     // Payment Info Section:
     const cardNumberInput = document.getElementById('cc-num');
-    const paymentMethod = document.getElementById('payment'); 
+    const paymentMethod = document.getElementById('payment');
+    
+    const paypal =  document.getElementById('paypal');
+    const bitcoin =  document.getElementById('bitcoin');
     // credit card as default payment method
     paymentMethod[1].selected = 'selected';
+    // other payment options hidden
+    paypal.style.display = 'none';
+    bitcoin.style.display = 'none';
     // after user has selected hide other payment options
     paymentMethod.addEventListener('change', (e) => {
         if(e.target.value != 'credit-card') {
             document.getElementById('credit-card').style.display = 'none';
+            if(e.target.value == 'paypal') {
+                paypal.style.display = 'list-item';
+                bitcoin.style.display = 'none';
+            } else if(e.target.value == 'bitcoin') {
+                bitcoin.style.display = 'list-item';
+                paypal.style.display = 'none';
+            }
         } else if(e.target.value == 'credit-card') {
             document.getElementById('credit-card').style.display = 'list-item';
         }
@@ -183,7 +198,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
     const form = document.querySelector('form');
 
     function validateName(name) {
-        const nameValid = /^[a-zA-Z]+ ?[a-zA-Z]*? ?[a-zA-Z]*?$/.test(name);
+        let nameValid = /^[a-zA-Z]+ ?[a-zA-Z]*? ?[a-zA-Z]*?$/.test(name);
         if(nameValid == false) {
             document.getElementById('name').classList.add('error-border');
             document.getElementById('name-hint').style.display = 'list-item';
@@ -197,7 +212,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
     }
 
     function validateEmail(email) {
-        const emailValid = /^[a-zA-Z0-9]+@+[a-z]+.com$/.test(email);
+        let emailValid = /^[a-zA-Z0-9]+@+[a-z]+.com$/.test(email);
         if(emailValid == false) {
             document.getElementById('email').classList.add('not-valid');
             document.getElementById('email-hint').style.display = 'list-item';
@@ -230,7 +245,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
 
     // Credit Card fields validation:
     function validateCCnum(ccNum) {
-        const ccNumValid = /^[0-9]{16}$/.test(ccNum);
+        let ccNumValid = /^[0-9]{16}$/.test(ccNum);
         if(ccNumValid == false) {
             document.getElementById('cc-num').classList.add('not-valid');
             document.getElementById('cc-hint').style.display = 'list-item';
@@ -243,7 +258,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
         return ccNumValid;
     }
     function validateCCzip(ccZip) {
-        const ccZipValid = /^\d{5}$/.test(ccZip);
+        let ccZipValid = /^\d{5}$/.test(ccZip);
         if(ccZipValid == false) {
             document.getElementById('zip').classList.add('not-valid');
             document.getElementById('zip-hint').style.display = 'list-item';
@@ -256,7 +271,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
         return ccZipValid;
     }
     function validateCCcvv(ccCVV) {
-        const ccCVVvalid = /^[1-9]{1}[0-9]{2}$/.test(ccCVV);
+        let ccCVVvalid = /^[1-9]{1}[0-9]{2}$/.test(ccCVV);
         if(ccCVVvalid == false) {
             document.getElementById('cvv').classList.add('not-valid');
             document.getElementById('cvv-hint').style.display = 'list-item';
@@ -289,7 +304,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
 
     // event listener for form submission that will validate all user input:
     form.addEventListener('submit', (e) => {
-        e.preventDefault();
+        //e.preventDefault();
 
         let nameValue = document.getElementById('name').value;
         let emailValue = document.getElementById('email').value;
@@ -316,10 +331,11 @@ document.addEventListener('DOMContentLoaded', (e) => {
             validateCCyear(ccYearValue);
             validateCCmonth(ccMonthValue);
         }
-        /* if(nameValid || emailValid || activitiesValid || ccNumValid || ccZipValid || ccCVVvalid ||
-                ccYearValid || ccMonthValid == 'false') {
-            e.preventDefault();
-        } */
-    });
 
+        if(!nameValid) {
+            e.preventDefault();
+        } else {
+            console.log('name is not valid');
+        }
+    });
 });
