@@ -11,8 +11,6 @@ Nathaniel Boonzaaijer
             Card Number
             Zip Code
             CVV
-    Form never submits,
-        if there are no errors, form should not be kept from submitting
 */
 
 document.addEventListener('DOMContentLoaded', (e) => {
@@ -148,8 +146,6 @@ document.addEventListener('DOMContentLoaded', (e) => {
         }
 
         totalPrice.innerHTML = `$${subTotal}`;
-        console.log(`Activities Checked: ${activitiesChecked}`);
-
     });
 
     // Accessibility:
@@ -196,23 +192,33 @@ document.addEventListener('DOMContentLoaded', (e) => {
 
     // Form Validation:
     const form = document.querySelector('form');
+    let nameValid = false;
+    let emailValid = false;
+    let activitiesValid = false;
+    let ccNumValid = false;
+    let ccZipValid = false;
+    let ccCVVvalid = false;
+    let ccYearValid = false;
+    let ccMonthValid = false;
 
     function validateName(name) {
-        let nameValid = /^[a-zA-Z]+ ?[a-zA-Z]*? ?[a-zA-Z]*?$/.test(name);
+        nameValid = /^[a-zA-Z]+ ?[a-zA-Z]*? ?[a-zA-Z]*?$/.test(name);
         if(nameValid == false) {
             document.getElementById('name').classList.add('error-border');
             document.getElementById('name-hint').style.display = 'list-item';
+            document.getElementById('name').classList.add('not-valid');
         } else {
             document.getElementById('name').classList.remove('error-border');
             document.getElementById('name-hint').style.display = 'none';
+            document.getElementById('name').classList.remove('not-valid');
         }
+
         console.log(`name valid: ${nameValid}`);
-        
+
         return nameValid;
     }
-
     function validateEmail(email) {
-        let emailValid = /^[a-zA-Z0-9]+@+[a-z]+.com$/.test(email);
+        emailValid = /^[a-zA-Z0-9]+@+[a-z]+.com$/.test(email);
         if(emailValid == false) {
             document.getElementById('email').classList.add('not-valid');
             document.getElementById('email-hint').style.display = 'list-item';
@@ -226,7 +232,6 @@ document.addEventListener('DOMContentLoaded', (e) => {
     }
 
     function validateActivities(activities) {
-        let activitiesValid = false;
  
         if(activitiesChecked >= 1) {
             activitiesValid = true;
@@ -245,7 +250,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
 
     // Credit Card fields validation:
     function validateCCnum(ccNum) {
-        let ccNumValid = /^[0-9]{16}$/.test(ccNum);
+        ccNumValid = /^[0-9]{16}$/.test(ccNum);
         if(ccNumValid == false) {
             document.getElementById('cc-num').classList.add('not-valid');
             document.getElementById('cc-hint').style.display = 'list-item';
@@ -258,7 +263,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
         return ccNumValid;
     }
     function validateCCzip(ccZip) {
-        let ccZipValid = /^\d{5}$/.test(ccZip);
+        ccZipValid = /^\d{5}$/.test(ccZip);
         if(ccZipValid == false) {
             document.getElementById('zip').classList.add('not-valid');
             document.getElementById('zip-hint').style.display = 'list-item';
@@ -271,7 +276,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
         return ccZipValid;
     }
     function validateCCcvv(ccCVV) {
-        let ccCVVvalid = /^[1-9]{1}[0-9]{2}$/.test(ccCVV);
+        ccCVVvalid = /^[1-9]{1}[0-9]{2}$/.test(ccCVV);
         if(ccCVVvalid == false) {
             document.getElementById('cvv').classList.add('not-valid');
             document.getElementById('cvv-hint').style.display = 'list-item';
@@ -284,7 +289,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
         return ccCVVvalid;
     }
     function validateCCyear(ccYear) {
-        let ccYearValid = false;
+
         if(isNaN(ccYear) == false) {
             ccYearValid = true;
         }
@@ -293,7 +298,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
         return ccYearValid;
     }
     function validateCCmonth(ccMonth) {
-        let ccMonthValid = false;
+
         if(isNaN(ccMonth) == false) {
             ccMonthValid = true;
         }
@@ -304,7 +309,6 @@ document.addEventListener('DOMContentLoaded', (e) => {
 
     // event listener for form submission that will validate all user input:
     form.addEventListener('submit', (e) => {
-        //e.preventDefault();
 
         let nameValue = document.getElementById('name').value;
         let emailValue = document.getElementById('email').value;
@@ -319,10 +323,19 @@ document.addEventListener('DOMContentLoaded', (e) => {
 
         // name field validation:
         validateName(nameValue);
+        if(nameValid == false) {
+            e.preventDefault();
+        }
         // email field validation:
         validateEmail(emailValue);
+        if(emailValid == false) {
+            e.preventDefault();
+        }
         // register for activities section validation:
         validateActivities(activities);
+        if(activitiesValid == false) {
+            e.preventDefault();
+        }
         // credit card validation: 
         if(document.getElementById('payment').value == 'credit-card') {
             validateCCnum(ccNumValue);
@@ -330,12 +343,6 @@ document.addEventListener('DOMContentLoaded', (e) => {
             validateCCcvv(ccCVVvalue);
             validateCCyear(ccYearValue);
             validateCCmonth(ccMonthValue);
-        }
-
-        if(!nameValid) {
-            e.preventDefault();
-        } else {
-            console.log('name is not valid');
         }
     });
 });
