@@ -4,13 +4,7 @@ Nathaniel Boonzaaijer
 */
 
 /*  TO DO:
-    Error messages:
-        not displaying for:
-            Name
-            Email
-            Card Number
-            Zip Code
-            CVV
+        Error border not showing up for the activities section
 */
 
 document.addEventListener('DOMContentLoaded', (e) => {
@@ -204,13 +198,13 @@ document.addEventListener('DOMContentLoaded', (e) => {
     function validateName(name) {
         nameValid = /^[a-zA-Z]+ ?[a-zA-Z]*? ?[a-zA-Z]*?$/.test(name);
         if(nameValid == false) {
-            document.getElementById('name').classList.add('error-border');
-            document.getElementById('name-hint').style.display = 'list-item';
+            document.getElementById('name').parentElement.classList.add('not-valid');
             document.getElementById('name').classList.add('not-valid');
+            document.getElementById('name-hint').style.display = 'list-item';
         } else {
-            document.getElementById('name').classList.remove('error-border');
-            document.getElementById('name-hint').style.display = 'none';
+            document.getElementById('name').parentElement.classList.remove('not-valid');
             document.getElementById('name').classList.remove('not-valid');
+            document.getElementById('name-hint').style.display = 'none';
         }
 
         console.log(`name valid: ${nameValid}`);
@@ -220,9 +214,11 @@ document.addEventListener('DOMContentLoaded', (e) => {
     function validateEmail(email) {
         emailValid = /^[a-zA-Z0-9]+@+[a-z]+.com$/.test(email);
         if(emailValid == false) {
+            document.getElementById('email').parentElement.classList.add('not-valid');
             document.getElementById('email').classList.add('not-valid');
             document.getElementById('email-hint').style.display = 'list-item';
         } else {
+            document.getElementById('email').parentElement.classList.remove('not-valid');
             document.getElementById('email').classList.remove('not-valid');
             document.getElementById('email-hint').style.display = 'none';
         }
@@ -237,10 +233,12 @@ document.addEventListener('DOMContentLoaded', (e) => {
             activitiesValid = true;
         }
         if(activitiesValid == false) {
-            document.getElementById('activities').classList.add('not-valid');
+            document.getElementById('activities').parentElement.classList.add('not-valid');
+            document.getElementById('activities-box').classList.add('not-valid');
             document.getElementById('activities-hint').style.display = 'list-item';
         } else {
-            document.getElementById('activities').classList.remove('not-valid');
+            document.getElementById('activities').parentElement.classList.remove('not-valid');
+            document.getElementById('activities-box').classList.remove('not-valid');
             document.getElementById('activities-hint').style.display = 'none';
         }
         console.log(`activities valid: ${activitiesValid}`);
@@ -252,9 +250,11 @@ document.addEventListener('DOMContentLoaded', (e) => {
     function validateCCnum(ccNum) {
         ccNumValid = /^[0-9]{16}$/.test(ccNum);
         if(ccNumValid == false) {
+            document.getElementById('cc-num').parentElement.classList.add('not-valid');
             document.getElementById('cc-num').classList.add('not-valid');
             document.getElementById('cc-hint').style.display = 'list-item';
         } else {
+            document.getElementById('cc-num').parentElement.classList.remove('not-valid');
             document.getElementById('cc-num').classList.remove('not-valid');
             document.getElementById('cc-hint').style.display = 'none';
         }
@@ -265,9 +265,11 @@ document.addEventListener('DOMContentLoaded', (e) => {
     function validateCCzip(ccZip) {
         ccZipValid = /^\d{5}$/.test(ccZip);
         if(ccZipValid == false) {
+            document.getElementById('zip').parentElement.classList.add('not-valid');
             document.getElementById('zip').classList.add('not-valid');
             document.getElementById('zip-hint').style.display = 'list-item';
         } else {
+            document.getElementById('zip').parentElement.classList.remove('not-valid');
             document.getElementById('zip').classList.remove('not-valid');
             document.getElementById('zip-hint').style.display = 'none';
         }
@@ -278,9 +280,11 @@ document.addEventListener('DOMContentLoaded', (e) => {
     function validateCCcvv(ccCVV) {
         ccCVVvalid = /^[1-9]{1}[0-9]{2}$/.test(ccCVV);
         if(ccCVVvalid == false) {
+            document.getElementById('cvv').parentElement.classList.add('not-valid');
             document.getElementById('cvv').classList.add('not-valid');
             document.getElementById('cvv-hint').style.display = 'list-item';
         } else {
+            document.getElementById('cvv').parentElement.classList.remove('not-valid');
             document.getElementById('cvv').classList.remove('not-valid');
             document.getElementById('cvv-hint').style.display = 'none';
         }
