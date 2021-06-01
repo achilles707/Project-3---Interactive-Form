@@ -4,7 +4,8 @@ Nathaniel Boonzaaijer
 */
 
 /*  TO DO:
-        Error border not showing up for the activities section
+    error icon is wrong spot for activiities
+
 */
 
 document.addEventListener('DOMContentLoaded', (e) => {
@@ -233,12 +234,10 @@ document.addEventListener('DOMContentLoaded', (e) => {
             activitiesValid = true;
         }
         if(activitiesValid == false) {
-            document.getElementById('activities').parentElement.classList.add('not-valid');
-            document.getElementById('activities-box').classList.add('not-valid');
+            document.getElementById('activities').classList.add('not-valid');
             document.getElementById('activities-hint').style.display = 'list-item';
         } else {
-            document.getElementById('activities').parentElement.classList.remove('not-valid');
-            document.getElementById('activities-box').classList.remove('not-valid');
+            document.getElementById('activities').classList.remove('not-valid');
             document.getElementById('activities-hint').style.display = 'none';
         }
         console.log(`activities valid: ${activitiesValid}`);
