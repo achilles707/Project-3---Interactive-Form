@@ -74,7 +74,6 @@ document.addEventListener('DOMContentLoaded', (e) => {
 
     // Register for Activities Section:
     const activities = document.getElementById('activities-box');
-    const frogs = document.getElementsByTagName('legend')[2];
     const totalPrice = document.getElementById('activities-cost');
     let subTotal = 0;
     // for validation:
@@ -229,19 +228,17 @@ document.addEventListener('DOMContentLoaded', (e) => {
         return emailValid;
     }
 
-    function validateActivities(activities) {
+    function validateActivities(activities) { 
  
         if(activitiesChecked >= 1) {
             activitiesValid = true;
         }
         if(activitiesValid == false) {
-            document.getElementById('activities-box').classList.add('not-valid');
+            document.getElementById('activities').classList.add('not-valid');
             document.getElementById('activities-hint').style.display = 'list-item';
-            frogs.classList.add('not-valid');
         } else {
-            document.getElementById('activities-box').classList.remove('not-valid');
+            document.getElementById('activities').classList.remove('not-valid');
             document.getElementById('activities-hint').style.display = 'none';
-            frogs.classList.remove('not-valid');
         }
         console.log(`activities valid: ${activitiesValid}`);
         
