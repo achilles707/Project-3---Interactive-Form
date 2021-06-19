@@ -4,8 +4,13 @@ Nathaniel Boonzaaijer
 */
 
 /*  TO DO:
-    237-245, error border not working yet for activities section
+    Basic info section heading doesn't turn red
 
+    DONE:
+    Errors in payment section do not prevent form submission
+    Valid icons don't show up for valid fields (optional)
+    Payment section: paypal/bitcoin still there when switch to credit card from either done
+    CC month and year do not have not-valid class added/removed
 */
 
 document.addEventListener('DOMContentLoaded', (e) => {
@@ -182,6 +187,9 @@ document.addEventListener('DOMContentLoaded', (e) => {
             }
         } else if(e.target.value == 'credit-card') {
             document.getElementById('credit-card').style.display = 'list-item';
+            paypal.style.display = 'none';
+            bitcoin.style.display = 'none';
+            console.log('Bitcoin Hidden');
         }
     });
 
@@ -201,11 +209,17 @@ document.addEventListener('DOMContentLoaded', (e) => {
         if(nameValid == false) {
             document.getElementById('name').parentElement.classList.add('not-valid');
             document.getElementById('name').classList.add('not-valid');
+            document.getElementById('name').parentElement.classList.remove('valid');
+            document.getElementById('name').classList.remove('valid');
             document.getElementById('name-hint').style.display = 'list-item';
+
         } else {
             document.getElementById('name').parentElement.classList.remove('not-valid');
             document.getElementById('name').classList.remove('not-valid');
+            document.getElementById('name').parentElement.classList.add('valid');
+            document.getElementById('name').classList.add('valid');
             document.getElementById('name-hint').style.display = 'none';
+
         }
 
         console.log(`name valid: ${nameValid}`);
@@ -217,10 +231,14 @@ document.addEventListener('DOMContentLoaded', (e) => {
         if(emailValid == false) {
             document.getElementById('email').parentElement.classList.add('not-valid');
             document.getElementById('email').classList.add('not-valid');
+            document.getElementById('email').parentElement.classList.remove('valid');
+            document.getElementById('email').classList.remove('valid');
             document.getElementById('email-hint').style.display = 'list-item';
         } else {
             document.getElementById('email').parentElement.classList.remove('not-valid');
             document.getElementById('email').classList.remove('not-valid');
+            document.getElementById('email').parentElement.classList.add('valid');
+            document.getElementById('email').classList.add('valid');
             document.getElementById('email-hint').style.display = 'none';
         }
         console.log(`email valid: ${emailValid}`);
@@ -235,9 +253,11 @@ document.addEventListener('DOMContentLoaded', (e) => {
         }
         if(activitiesValid == false) {
             document.getElementById('activities').classList.add('not-valid');
+            document.getElementById('activities').classList.remove('valid');
             document.getElementById('activities-hint').style.display = 'list-item';
         } else {
             document.getElementById('activities').classList.remove('not-valid');
+            document.getElementById('activities').classList.add('valid');
             document.getElementById('activities-hint').style.display = 'none';
         }
         console.log(`activities valid: ${activitiesValid}`);
@@ -251,10 +271,14 @@ document.addEventListener('DOMContentLoaded', (e) => {
         if(ccNumValid == false) {
             document.getElementById('cc-num').parentElement.classList.add('not-valid');
             document.getElementById('cc-num').classList.add('not-valid');
+            document.getElementById('cc-num').parentElement.classList.remove('valid');
+            document.getElementById('cc-num').classList.remove('valid');
             document.getElementById('cc-hint').style.display = 'list-item';
         } else {
             document.getElementById('cc-num').parentElement.classList.remove('not-valid');
             document.getElementById('cc-num').classList.remove('not-valid');
+            document.getElementById('cc-num').parentElement.classList.add('valid');
+            document.getElementById('cc-num').classList.add('valid');
             document.getElementById('cc-hint').style.display = 'none';
         }
         console.log(`Card number valid: ${ccNumValid}`);
@@ -266,10 +290,14 @@ document.addEventListener('DOMContentLoaded', (e) => {
         if(ccZipValid == false) {
             document.getElementById('zip').parentElement.classList.add('not-valid');
             document.getElementById('zip').classList.add('not-valid');
+            document.getElementById('zip').parentElement.classList.remove('valid');
+            document.getElementById('zip').classList.remove('valid');
             document.getElementById('zip-hint').style.display = 'list-item';
         } else {
             document.getElementById('zip').parentElement.classList.remove('not-valid');
             document.getElementById('zip').classList.remove('not-valid');
+            document.getElementById('zip').parentElement.classList.add('valid');
+            document.getElementById('zip').classList.add('valid');
             document.getElementById('zip-hint').style.display = 'none';
         }
         console.log(`Zip code valid: ${ccZipValid}`);
@@ -281,10 +309,14 @@ document.addEventListener('DOMContentLoaded', (e) => {
         if(ccCVVvalid == false) {
             document.getElementById('cvv').parentElement.classList.add('not-valid');
             document.getElementById('cvv').classList.add('not-valid');
+            document.getElementById('cvv').parentElement.classList.remove('valid');
+            document.getElementById('cvv').classList.remove('valid');
             document.getElementById('cvv-hint').style.display = 'list-item';
         } else {
             document.getElementById('cvv').parentElement.classList.remove('not-valid');
             document.getElementById('cvv').classList.remove('not-valid');
+            document.getElementById('cvv').parentElement.classList.add('valid');
+            document.getElementById('cvv').classList.add('valid');
             document.getElementById('cvv-hint').style.display = 'none';
         }
         console.log(`CVV valid: ${ccCVVvalid}`);
@@ -292,19 +324,41 @@ document.addEventListener('DOMContentLoaded', (e) => {
         return ccCVVvalid;
     }
     function validateCCyear(ccYear) {
-
         if(isNaN(ccYear) == false) {
             ccYearValid = true;
         }
+        if(ccYearValid == false) {
+            document.getElementById('exp-year').parentElement.classList.add('not-valid');
+            document.getElementById('exp-year').classList.add('not-valid');
+            document.getElementById('exp-year').parentElement.classList.remove('valid');
+            document.getElementById('exp-year').classList.remove('valid');
+        } else {
+            document.getElementById('exp-year').parentElement.classList.remove('not-valid');
+            document.getElementById('exp-year').classList.remove('not-valid');
+            document.getElementById('exp-year').parentElement.classList.add('valid');
+            document.getElementById('exp-year').classList.add('valid');
+        }
+
         console.log(`Exp year valid: ${ccYearValid}`);
 
         return ccYearValid;
     }
     function validateCCmonth(ccMonth) {
-
         if(isNaN(ccMonth) == false) {
             ccMonthValid = true;
         }
+        if(ccMonthValid == false) {
+            document.getElementById('exp-month').parentElement.classList.add('not-valid');
+            document.getElementById('exp-month').classList.add('not-valid');
+            document.getElementById('exp-month').parentElement.classList.remove('valid');
+            document.getElementById('exp-month').classList.remove('valid');
+        } else {
+            document.getElementById('exp-month').parentElement.classList.remove('not-valid');
+            document.getElementById('exp-month').classList.remove('not-valid');
+            document.getElementById('exp-month').parentElement.classList.add('valid');
+            document.getElementById('exp-month').classList.add('valid');
+        }
+        
         console.log(`Exp month valid: ${ccMonthValid}`);
 
         return ccMonthValid;
@@ -346,6 +400,12 @@ document.addEventListener('DOMContentLoaded', (e) => {
             validateCCcvv(ccCVVvalue);
             validateCCyear(ccYearValue);
             validateCCmonth(ccMonthValue);
+
+            if(ccNumValid == false || ccZipValid == false || ccCVVvalid == false 
+                || ccYearValid == false || ccMonthValid == false) {
+                    e.preventDefault();
+            }
         }
+        
     });
 });
