@@ -3,16 +3,6 @@ Treehouse-Project-3---Interactive-Form
 Nathaniel Boonzaaijer
 */
 
-/*  TO DO:
-    Basic info section heading doesn't turn red
-
-    DONE:
-    Errors in payment section do not prevent form submission
-    Valid icons don't show up for valid fields (optional)
-    Payment section: paypal/bitcoin still there when switch to credit card from either done
-    CC month and year do not have not-valid class added/removed
-*/
-
 document.addEventListener('DOMContentLoaded', (e) => {
     // The Name Field:
     // set the default focus to be on the Name input:
@@ -267,7 +257,7 @@ document.addEventListener('DOMContentLoaded', (e) => {
 
     // Credit Card fields validation:
     function validateCCnum(ccNum) {
-        ccNumValid = /^[0-9]{16}$/.test(ccNum);
+        ccNumValid = /^[0-9]{13,16}$/.test(ccNum);
         if(ccNumValid == false) {
             document.getElementById('cc-num').parentElement.classList.add('not-valid');
             document.getElementById('cc-num').classList.add('not-valid');
